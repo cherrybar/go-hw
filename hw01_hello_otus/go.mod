@@ -1,4 +1,4 @@
-module github.com/cherrybar/hw01_hello_otus
+module github.com/cherrybar/go-hw/hw01_hello_otus
 
 go 1.19
 
