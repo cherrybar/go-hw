@@ -12,12 +12,12 @@ func TestUnpack(t *testing.T) {
 		input    string
 		expected string
 	}{
+		{input: "п2д", expected: "ппд"},
 		{input: "a4bc2d5e", expected: "aaaabccddddde"},
 		{input: "llov", expected: "llov"},
 		{input: "", expected: ""},
 		{input: "aaa0b", expected: "aab"},
 		{input: "aaab0", expected: "aaa"},
-		{input: "п2", expected: "пп"},
 	}
 
 	runTest(t, tests)
@@ -39,6 +39,8 @@ func TestUnpackNonASCII(t *testing.T) {
 		input    string
 		expected string
 	}{
+		{input: "ллов", expected: "ллов"},
+
 		{input: "ф2ф3ин3", expected: "фффффиннн"},
 		{input: "ллов", expected: "ллов"},
 		{input: "абв0г", expected: "абг"},
@@ -52,6 +54,7 @@ func runTest(t *testing.T, tests []struct {
 	input    string
 	expected string
 }) {
+	t.Helper()
 	for _, tc := range tests {
 		tc := tc
 		t.Run(tc.input, func(t *testing.T) {

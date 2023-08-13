@@ -22,14 +22,15 @@ func Unpack(str string) (string, error) {
 
 	builder := strings.Builder{}
 	var prevLetter rune
+	var isPrevDigit bool
 
-	for i := 0; i < len(runes); i++ {
-		if unicode.IsDigit(runes[i]) {
-			if unicode.IsDigit(runes[i-1]) {
+	for _, char := range str {
+		if unicode.IsDigit(char) {
+			if isPrevDigit {
 				return "", ErrInvalidString
 			}
 
-			if counter, _ := strconv.Atoi(string(runes[i])); counter != 0 {
+			if counter, _ := strconv.Atoi(string(char)); counter != 0 {
 				runeArray := []rune(strings.Repeat(string(prevLetter), counter))
 
 				for _, run := range runeArray {
@@ -37,18 +38,20 @@ func Unpack(str string) (string, error) {
 				}
 			}
 			prevLetter = 0
+			isPrevDigit = true
 			continue
 		}
+		isPrevDigit = false
 
 		if prevLetter != 0 {
 			builder.WriteRune(prevLetter)
 		}
 
-		if i == len(runes)-1 {
-			builder.WriteRune(runes[i])
-		}
+		prevLetter = char
+	}
 
-		prevLetter = runes[i]
+	if !unicode.IsDigit(prevLetter) && prevLetter != 0 {
+		builder.WriteRune(prevLetter)
 	}
 
 	return builder.String(), nil
