@@ -53,7 +53,8 @@ func TestUnpackNonASCII(t *testing.T) {
 func runTest(t *testing.T, tests []struct {
 	input    string
 	expected string
-}) {
+},
+) {
 	t.Helper()
 	for _, tc := range tests {
 		tc := tc

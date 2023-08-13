@@ -31,9 +31,9 @@ func Unpack(str string) (string, error) {
 			}
 
 			if counter, _ := strconv.Atoi(string(char)); counter != 0 {
-				runeArray := []rune(strings.Repeat(string(prevLetter), counter))
+				strMultiplied := strings.Repeat(string(prevLetter), counter)
 
-				for _, run := range runeArray {
+				for _, run := range strMultiplied {
 					builder.WriteRune(run)
 				}
 			}
