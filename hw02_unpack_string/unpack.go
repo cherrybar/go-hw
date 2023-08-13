@@ -35,10 +35,8 @@ func Unpack(str string) (string, error) {
 				for _, run := range runeArray {
 					builder.WriteRune(run)
 				}
-
 			}
 			prevLetter = 0
-
 			continue
 		}
 

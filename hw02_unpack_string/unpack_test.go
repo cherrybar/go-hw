@@ -20,7 +20,7 @@ func TestUnpack(t *testing.T) {
 		{input: "п2", expected: "пп"},
 	}
 
-	runTest(tests, t)
+	runTest(t, tests)
 }
 
 func TestUnpackInvalidString(t *testing.T) {
@@ -45,13 +45,13 @@ func TestUnpackNonASCII(t *testing.T) {
 		{input: "п2", expected: "пп"},
 	}
 
-	runTest(tests, t)
+	runTest(t, tests)
 }
 
-func runTest(tests []struct {
+func runTest(t *testing.T, tests []struct {
 	input    string
 	expected string
-}, t *testing.T) {
+}) {
 	for _, tc := range tests {
 		tc := tc
 		t.Run(tc.input, func(t *testing.T) {
