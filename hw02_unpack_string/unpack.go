@@ -1,56 +1,57 @@
 package hw02unpackstring
 
 import (
-	"bytes"
 	"errors"
 	"strconv"
 	"strings"
+	"unicode"
 )
 
 var ErrInvalidString = errors.New("invalid string")
-
-func isDigit(char string) (int, bool) {
-	val, err := strconv.Atoi(char)
-	return val, err != nil
-}
-
-func removeLastLetterFromBuffer(buffer *bytes.Buffer) {
-	strFromBuffer := buffer.String()
-	currStr := strFromBuffer[0 : len(strFromBuffer)-1]
-	var bufferTemp bytes.Buffer
-	bufferTemp.WriteString(currStr)
-	*buffer = bufferTemp
-}
 
 func Unpack(str string) (string, error) {
 	if len(str) == 0 {
 		return "", nil
 	}
 
-	if _, isNan := isDigit(string(str[0])); !isNan {
+	runes := []rune(str)
+
+	if unicode.IsDigit(runes[0]) {
 		return "", ErrInvalidString
 	}
 
-	var buffer bytes.Buffer
-	for index, char := range str {
-		letter := string(char)
+	builder := strings.Builder{}
+	var prevLetter rune
 
-		if counter, isNan := isDigit(letter); isNan {
-			buffer.WriteString(letter)
-		} else {
-			lastLetter := string(str[index-1])
-
-			if _, isNan := isDigit(lastLetter); !isNan {
+	for i := 0; i < len(runes); i++ {
+		if unicode.IsDigit(runes[i]) {
+			if unicode.IsDigit(runes[i-1]) {
 				return "", ErrInvalidString
 			}
 
-			if counter == 0 {
-				removeLastLetterFromBuffer(&buffer)
-			} else {
-				buffer.WriteString(strings.Repeat(lastLetter, counter-1))
+			if counter, _ := strconv.Atoi(string(runes[i])); counter != 0 {
+				runeArray := []rune(strings.Repeat(string(prevLetter), counter))
+
+				for _, run := range runeArray {
+					builder.WriteRune(run)
+				}
+
 			}
+			prevLetter = 0
+
+			continue
 		}
+
+		if prevLetter != 0 {
+			builder.WriteRune(prevLetter)
+		}
+
+		if i == len(runes)-1 {
+			builder.WriteRune(runes[i])
+		}
+
+		prevLetter = runes[i]
 	}
 
-	return buffer.String(), nil
+	return builder.String(), nil
 }
