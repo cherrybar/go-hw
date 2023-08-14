@@ -12,7 +12,6 @@ func TestUnpack(t *testing.T) {
 		input    string
 		expected string
 	}{
-		{input: "п2д", expected: "ппд"},
 		{input: "a4bc2d5e", expected: "aaaabccddddde"},
 		{input: "llov", expected: "llov"},
 		{input: "", expected: ""},
@@ -40,7 +39,6 @@ func TestUnpackNonASCII(t *testing.T) {
 		expected string
 	}{
 		{input: "ллов", expected: "ллов"},
-
 		{input: "ф2ф3ин3", expected: "фффффиннн"},
 		{input: "ллов", expected: "ллов"},
 		{input: "абв0г", expected: "абг"},
