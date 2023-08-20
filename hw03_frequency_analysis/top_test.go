@@ -64,7 +64,7 @@ func TestTop10(t *testing.T) {
 	})
 
 	t.Run("test short string (less than 10 unique words)", func(t *testing.T) {
-		var text = "cat cat cat dog dog abc c"
+		text := "cat cat cat dog dog abc c"
 		expected := []string{
 			"cat", // 3
 			"dog", // 2
@@ -77,7 +77,7 @@ func TestTop10(t *testing.T) {
 	})
 
 	t.Run("test lexicographical sorting", func(t *testing.T) {
-		var text = "banana banana apple cherry apple grape pineapple apple cherry pineapple banana"
+		text := "banana banana apple cherry apple grape pineapple apple cherry pineapple banana"
 		expected := []string{
 			"apple",     // 3
 			"banana",    // 3
@@ -91,7 +91,7 @@ func TestTop10(t *testing.T) {
 	})
 
 	t.Run("test string with multiple whitespaces", func(t *testing.T) {
-		var text = " banana banana apple   cherry apple grape   pineapple     apple cherry pineapple banana  "
+		text := " banana banana apple   cherry apple grape   pineapple     apple cherry pineapple banana  "
 		expected := []string{
 			"apple",     // 3
 			"banana",    // 3
@@ -105,7 +105,7 @@ func TestTop10(t *testing.T) {
 	})
 
 	t.Run("test different cases", func(t *testing.T) {
-		var text = " banana banana Apple   cherry apple grape   pineapple     apple cherry pineapple banana  "
+		text := " banana banana Apple   cherry apple grape   pineapple     apple cherry pineapple banana  "
 		expected := []string{
 			"banana",    // 3
 			"apple",     // 2
