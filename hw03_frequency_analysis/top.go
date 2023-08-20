@@ -27,13 +27,16 @@ func Top10(str string) ([]string, error) {
 	sort.Slice(keys, func(i int, j int) bool {
 		comparableI := hash[keys[i]]
 		comparableJ := hash[keys[j]]
+
 		if comparableI-comparableJ > 0 {
 			return true
-		} else if comparableI-comparableJ < 0 {
-			return false
-		} else {
-			return keys[i] < keys[j]
 		}
+
+		if comparableI-comparableJ < 0 {
+			return false
+		}
+
+		return keys[i] < keys[j]
 	})
 
 	var err error
