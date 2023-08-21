@@ -1,25 +1,23 @@
 package hw03frequencyanalysis
 
 import (
-	"fmt"
-	"math"
 	"sort"
 	"strings"
 )
 
-func Top10(str string) ([]string, error) {
+func Top10(str string) []string {
 	hash := make(map[string]int)
 	words := strings.Fields(str)
 
 	if len(words) == 0 {
-		return make([]string, 0), nil
+		return make([]string, 0)
 	}
 
 	for _, word := range words {
 		hash[word]++
 	}
 
-	keys := make([]string, 0)
+	keys := make([]string, 0, len(hash))
 	for key := range hash {
 		keys = append(keys, key)
 	}
@@ -39,14 +37,9 @@ func Top10(str string) ([]string, error) {
 		return keys[i] < keys[j]
 	})
 
-	var err error
-	defer func() {
-		if val := recover(); val != nil {
-			err = fmt.Errorf("panic occurs")
-		}
-	}()
+	if len(hash) < 10 {
+		return keys[:len(hash)]
+	}
 
-	// if total number of words less than 10 then use it as index
-	idx := int(math.Min(float64(len(hash)), 10))
-	return keys[:idx], err
+	return keys[:10]
 }

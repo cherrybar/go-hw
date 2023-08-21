@@ -42,8 +42,7 @@ var text = `Как видите, он  спускается  по  лестни�
 
 func TestTop10(t *testing.T) {
 	t.Run("no words in empty string", func(t *testing.T) {
-		actual, _ := Top10("")
-		require.Len(t, actual, 0)
+		require.Len(t, Top10(""), 0)
 	})
 
 	t.Run("positive test", func(t *testing.T) {
@@ -59,8 +58,7 @@ func TestTop10(t *testing.T) {
 			"не",        // 4
 			"то",        // 4
 		}
-		actual, _ := Top10(text)
-		require.Equal(t, expected, actual)
+		require.Equal(t, expected, Top10(text))
 	})
 
 	t.Run("test short string (less than 10 unique words)", func(t *testing.T) {
@@ -72,8 +70,7 @@ func TestTop10(t *testing.T) {
 			"c",   // 1
 		}
 
-		actual, _ := Top10(text)
-		require.Equal(t, expected, actual)
+		require.Equal(t, expected, Top10(text))
 	})
 
 	t.Run("test lexicographical sorting", func(t *testing.T) {
@@ -86,8 +83,7 @@ func TestTop10(t *testing.T) {
 			"grape",     // 1
 		}
 
-		actual, _ := Top10(text)
-		require.Equal(t, expected, actual)
+		require.Equal(t, expected, Top10(text))
 	})
 
 	t.Run("test string with multiple whitespaces", func(t *testing.T) {
@@ -100,8 +96,7 @@ func TestTop10(t *testing.T) {
 			"grape",     // 1
 		}
 
-		actual, _ := Top10(text)
-		require.Equal(t, expected, actual)
+		require.Equal(t, expected, Top10(text))
 	})
 
 	t.Run("test different cases", func(t *testing.T) {
@@ -115,7 +110,6 @@ func TestTop10(t *testing.T) {
 			"grape",     // 1
 		}
 
-		actual, _ := Top10(text)
-		require.Equal(t, expected, actual)
+		require.Equal(t, expected, Top10(text))
 	})
 }
