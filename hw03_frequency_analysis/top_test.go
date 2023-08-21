@@ -6,9 +6,6 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
-// Change to true if needed.
-var taskWithAsteriskIsCompleted = false
-
 var text = `Как видите, он  спускается  по  лестнице  вслед  за  своим
 	другом   Кристофером   Робином,   головой   вниз,  пересчитывая
 	ступеньки собственным затылком:  бум-бум-бум.  Другого  способа
@@ -49,34 +46,70 @@ func TestTop10(t *testing.T) {
 	})
 
 	t.Run("positive test", func(t *testing.T) {
-		if taskWithAsteriskIsCompleted {
-			expected := []string{
-				"а",         // 8
-				"он",        // 8
-				"и",         // 6
-				"ты",        // 5
-				"что",       // 5
-				"в",         // 4
-				"его",       // 4
-				"если",      // 4
-				"кристофер", // 4
-				"не",        // 4
-			}
-			require.Equal(t, expected, Top10(text))
-		} else {
-			expected := []string{
-				"он",        // 8
-				"а",         // 6
-				"и",         // 6
-				"ты",        // 5
-				"что",       // 5
-				"-",         // 4
-				"Кристофер", // 4
-				"если",      // 4
-				"не",        // 4
-				"то",        // 4
-			}
-			require.Equal(t, expected, Top10(text))
+		expected := []string{
+			"он",        // 8
+			"а",         // 6
+			"и",         // 6
+			"ты",        // 5
+			"что",       // 5
+			"-",         // 4
+			"Кристофер", // 4
+			"если",      // 4
+			"не",        // 4
+			"то",        // 4
 		}
+		require.Equal(t, expected, Top10(text))
+	})
+
+	t.Run("test short string (less than 10 unique words)", func(t *testing.T) {
+		text := "cat cat cat dog dog abc c"
+		expected := []string{
+			"cat", // 3
+			"dog", // 2
+			"abc", // 1
+			"c",   // 1
+		}
+
+		require.Equal(t, expected, Top10(text))
+	})
+
+	t.Run("test lexicographical sorting", func(t *testing.T) {
+		text := "banana banana apple cherry apple grape pineapple apple cherry pineapple banana"
+		expected := []string{
+			"apple",     // 3
+			"banana",    // 3
+			"cherry",    // 2
+			"pineapple", // 2
+			"grape",     // 1
+		}
+
+		require.Equal(t, expected, Top10(text))
+	})
+
+	t.Run("test string with multiple whitespaces", func(t *testing.T) {
+		text := " banana banana apple   cherry apple grape   pineapple     apple cherry pineapple banana  "
+		expected := []string{
+			"apple",     // 3
+			"banana",    // 3
+			"cherry",    // 2
+			"pineapple", // 2
+			"grape",     // 1
+		}
+
+		require.Equal(t, expected, Top10(text))
+	})
+
+	t.Run("test different cases", func(t *testing.T) {
+		text := " banana banana Apple   cherry apple grape   pineapple     apple cherry pineapple banana  "
+		expected := []string{
+			"banana",    // 3
+			"apple",     // 2
+			"cherry",    // 2
+			"pineapple", // 2
+			"Apple",     // 1
+			"grape",     // 1
+		}
+
+		require.Equal(t, expected, Top10(text))
 	})
 }
